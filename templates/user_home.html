@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello {{ user.username }}</title>
+</head>
+<body>
+    <h2>Hello {{ user.username }}</h2>
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <img src="{{ task.app.icon.url }}" width="40"> <strong>{{ task.app.name }}</strong> - {{ task.app.points }} points
+            <a href="{% url 'task_detail' task.id %}">View Task</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
