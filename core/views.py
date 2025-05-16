@@ -16,3 +16,16 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     parser_classes = (MultiPartParser, FormParser)
     permission_classes = [permissions.IsAuthenticated]
+
+@login_required
+def task_detail(request, task_id):
+    task = get_object_or_404(UserTask, id=task_id, user=request.user)
+    if request.method == 'POST':
+        screenshot = request.FILES.get('screenshot')
+        if screenshot:
+            task.screenshot = screenshot
+            task.completed = True
+            task.save()
+            task.user.points += task.app.points
+            task.user.save()
+    return render(request, 'task_detail.html', {'task': task})
